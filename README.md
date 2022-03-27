@@ -1,70 +1,171 @@
-# Getting Started with Create React App
+[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React CRUD
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- [react-router](https://git.generalassemb.ly/ga-wdi-boston/react-router)
 
-### `npm start`
+## Objectives
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+By the end of this, developers should be able to:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Make HTTP requests to an API from within a React app using [axios](https://www.npmjs.com/package/axios):
+  - (R)EAD resource collection.
+  - (R)EAD specific resource.
+  - (D)ELETE specific resource.
+  - (U)PDATE specific resource.
+  - (C)REATE new resource.
 
-### `npm test`
+## Preparation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Fork and clone this repository. 
+2. Create a new branch, `training`, for your work.
+3. Checkout to the `training` branch.
+4. Install dependencies with `npm install`.
 
-### `npm run build`
+## Book API
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This project is meant to work along side [this book API](https://library-express-api.herokuapp.com)
+to demonstrate creating a basic single page application in React that talks to an
+Express API.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Navigate to [`/books`](https://library-express-api.herokuapp.com/books) in your
+browser. You should see an object with a key `'books'` that points to an array
+of book objects. We will use this book data throughout this lesson.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Discussion: `react-template`
 
-### `npm run eject`
+This repo comes from [create-react-app](https://facebook.github.io/create-react-app/),
+which is a command line tool that lets you create new React projects out of thin air, with all the nececssary packages and configuration to get right to work.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The main features that this lesson has that are not included in `create-react-app`:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `react-router v5`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## CRUD a Book
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Methodical Approach
 
-## Learn More
+1. Test API in browser (if possible)
+1. Test API with cURL script
+1. Add feature to react application
+    1. Add route to `src/components/App.js`
+    1. Create component to render for route
+        1. Add component constructor
+        1. Add component render
+        1. Add component event
+        1. Add component `axios` call
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Frontend and Backend Urls
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+When working with **axios** and **react router** it can occasionally be tricky to
+tell which urls are to the front end and which urls are to the backend. Let's
+discuss how we can differentiate between frontend and backend urls.
 
-### Code Splitting
+#### Frontend Urls
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A `Route` component always defines which component a frontend url will show. For
+example, in the following Route the `Books` component will be shown if we visit the
+`/books` url.
 
-### Analyzing the Bundle Size
+```jsx
+<Route exact path='/books' component={Books} />
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To create a link to that frontend url, we will often use a `Link` or `NavLink`
+component.
 
-### Making a Progressive Web App
+```jsx
+<Link to='/books'>Books Page</Link>
+<NavLink to='/books'>Books Page</NavLink>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> **Note:** `Link`, `NavLink`, and `Route` components are from **react router**.
+> Anytime you see one of these components, then you are looking at a **frontend url**
 
-### Advanced Configuration
+#### Backend Urls
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+We will use `axios` to make requests to our backend API. Anytime we see `axios`
+or `apiUrl` we are working with a **backend url**.
 
-### Deployment
+```jsx
+axios(`${apiUrl}/books`)
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Code-along: (R)EAD books collection
 
-### `npm run build` fails to minify
+- Browser
+- cURL
+- React
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Code along: (R)EAD specific book
+
+- Browser
+- cURL
+- React
+
+### Lab: (D)ELETE specific book
+
+- cURL
+- React
+
+> Note: For delete, we want to send our users back to the list of books after
+> we delete one. Research how to use the `Redirect` component from the
+> `react-router-dom` package, and implement it in your `Book` component so our
+> users go back to the `Books` component after successfully deleting a book.
+
+### Code along: (U)PDATE specific book
+
+- cURL
+- React
+
+*Hint: [Handling Multiple Inputs in React](https://reactjs.org/docs/forms.html#handling-multiple-inputs)*
+
+#### Accessing `SyntheticEvent`s Asynchronously
+
+React wraps the Browser's native `event` with something called a
+[SyntheticEvent](https://reactjs.org/docs/events.html#event-pooling). This is
+to improve cross-browser support. For performance reasons React reuses the
+`SyntheticEvent` objects by pooling them and since it needs to be reused it will
+nullify all the properties (such as `event.target`) after the callback has been
+invoked.
+
+So if we need to access the `event`'s properties asynchronously, for updating
+state perhaps, we can use a method called `event.persist()`. This will:
+
+> remove the synthetic event from the pool and allow references to the event to
+> be retained by user code.
+
+### Lab: (C)REATE new book
+
+- cURL
+- React
+
+## Advanced React
+
+### Code along: Refactoring
+
+- Refactor forms into shared component
+- Add footer using component composition
+- Use `async` & `await` instead of promises
+
+### Bonus Lab: `async` & `await`
+
+Refactor the remaining CRUD functionality to use `async` and `await` instead
+of Promise chains.
+
+## Additional Resources
+
+- [React FAQ AJAX](https://reactjs.org/docs/faq-ajax.html)
+- [Axios](https://www.npmjs.com/package/axios)
+- [Using Axios with React (10 min :movie_camera:)](https://www.youtube.com/watch?v=oQnojIyTXb8)
+- [9 Things Every ReactJS Beginner Should Know](https://camjackson.net/post/9-things-every-reactjs-beginner-should-know)
+- [Smart and Dumb Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
+- [React AHA Moments](https://tylermcginnis.com/react-aha-moments/)
+
+## [License](LICENSE)
+
+1. All content is licensed under a CC­BY­NC­SA 4.0 license.
+1. All software code is licensed under GNU GPLv3. For commercial use or
+    alternative licensing, please contact legal@ga.co.
